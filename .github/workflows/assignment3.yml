@@ -9,9 +9,13 @@ jobs:
         uses: actions/checkout@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - name: Build the Docker Image
-        run: |
-          docker build . --file Dockerfile.setport --tag ${{ secrets.DOCKER_COURSE_USERNAME }}/assignment3
+      - name: Build and export
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile.setport
+          tags: assignment3:latest, ${{ secrets.DOCKER_COURSE_USERNAME }}/assignment3:latest
+          outputs: type=docker,dest=/tmp/image.tar
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
