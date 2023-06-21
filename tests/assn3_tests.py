@@ -1,3 +1,4 @@
 import pytest
 
-assert 1==1
+def test_check():
+    assert 1==1

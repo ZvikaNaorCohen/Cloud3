@@ -1,0 +1,8 @@
+============================= test session starts =============================
+platform win32 -- Python 3.10.7, pytest-7.3.2, pluggy-1.2.0 -- C:\Python310\python.exe
+cachedir: .pytest_cache
+rootdir: C:\src\github.com\ZvikaNaorCohen\Cloud3\tests
+plugins: Faker-18.9.0
+collecting ... collected 0 items
+
+============================ no tests ran in 0.01s ============================
