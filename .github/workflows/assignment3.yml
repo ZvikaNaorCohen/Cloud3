@@ -12,3 +12,4 @@ jobs:
       - name: Build the Docker Image
         run: |
           docker build . --file Dockerfile.setport --tag ${{ secrets.DOCKER_COURSE_USERNAME }}/assignment3
+          docker tag ${{ secrets.DOCKER_COURSE_USERNAME }}/assignment3:${{1000}}
