@@ -18,10 +18,22 @@ jobs:
           outputs: type=docker,dest=/tmp/image.tar
       - name: Success Build
         if: success()
-        run: echo 'Build Success' >> log.txt
+        run: echo "Build Success" >> log.txt
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./log.txt
+          tags: assignment3:latest, ${{ secrets.DOCKER_COURSE_USERNAME }}/assignment3:latest
+          outputs: type=docker,dest=/tmp/log.txt
       - name: Failed Build
         if: failure()
-        run: echo 'Build Failed' >> log.txt
+        run: echo "Build Failed" >> log.txt
+      - name: upload test results
+        if: always()  # always perform this step even if tests fail, to see results
+        uses: actions/upload-artifact@v3
+        with:
+          name: Logs
+          path: tests/assn3_test_results.txt
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
