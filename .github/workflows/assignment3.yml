@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Log Start Execute
-        run: echo $(date –Iminutes) "\n" >> log.txt
+        run: echo "bla bla bla bla bla\n" >> log.txt
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set up Docker Buildx
