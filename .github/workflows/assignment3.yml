@@ -19,12 +19,6 @@ jobs:
       - name: Success Build
         if: success()
         run: echo "Build Success" >> log.txt
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: ./log.txt
-          tags: assignment3:latest, ${{ secrets.DOCKER_COURSE_USERNAME }}/assignment3:latest
-          outputs: type=docker,dest=/tmp/log.txt
       - name: Failed Build
         if: failure()
         run: echo "Build Failed" >> log.txt
@@ -39,6 +33,11 @@ jobs:
         with:
           name: assignment3
           path: /tmp/image.tar
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Log File
+          path: log.txt
 
   test:
     needs: build
