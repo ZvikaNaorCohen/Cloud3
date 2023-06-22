@@ -10,6 +10,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Build and export
+        if: success()
+        run: echo 'Build Success' >> log.txt
+        if: failure()
+        run: echo 'Build Failed' >> log.txt
         uses: docker/build-push-action@v3
         with:
           context: .

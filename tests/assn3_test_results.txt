@@ -1,0 +1,21 @@
+============================= test session starts =============================
+platform win32 -- Python 3.10.7, pytest-7.3.2, pluggy-1.2.0 -- C:\Python310\python.exe
+cachedir: .pytest_cache
+rootdir: C:\src\github.com\ZvikaNaorCohen\Cloud3\tests
+plugins: Faker-18.9.0
+collecting ... collected 2 items
+
+assn3_tests.py::test_fail_check FAILED                                   [ 50%]
+assn3_tests.py::test_check PASSED                                        [100%]
+
+================================== FAILURES ===================================
+_______________________________ test_fail_check _______________________________
+
+    def test_fail_check():
+>       assert 2==1
+E       assert 2 == 1
+
+assn3_tests.py:4: AssertionError
+=========================== short test summary info ===========================
+FAILED assn3_tests.py::test_fail_check - assert 2 == 1
+========================= 1 failed, 1 passed in 0.24s =========================
