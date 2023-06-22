@@ -5,6 +5,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Log Start Execute
+        run: echo $(date –Iminutes) "\n" >> log.txt
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set up Docker Buildx
@@ -18,15 +20,15 @@ jobs:
           outputs: type=docker,dest=/tmp/image.tar
       - name: Success Build
         if: success()
-        run: echo "Build Success" >> log.txt
+        run: echo "image successfully built" >> log.txt
       - name: Failed Build
         if: failure()
-        run: echo "Build Failed" >> log.txt
+        run: echo "image not able to be built”" >> log.txt
       - name: upload test results
         if: always()  # always perform this step even if tests fail, to see results
         uses: actions/upload-artifact@v3
         with:
-          name: Logs
+          name: Tests Result # Do we need to name it? Do we need to put it in logs?
           path: tests/assn3_test_results.txt
       - name: Upload artifact
         uses: actions/upload-artifact@v3
