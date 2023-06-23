@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: Log Start Execute
         if: always()
-        run: echo "bla bla bla bla bla\n" >> log.txt
+        run: echo "bla bla bla bla bla\n" >> ${{ github.workspace }}/log.txt
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set up Docker Buildx
@@ -21,26 +21,27 @@ jobs:
           outputs: type=docker,dest=/tmp/image.tar
       - name: Success Build
         if: success()
-        run: echo "image successfully built \n" >> log.txt
+        run: echo "image successfully built \n" >> ${{ github.workspace }}/log.txt
       - name: Failed Build
         if: failure()
-        run: echo "image not able to be built \n" >> log.txt
+        run: echo "image not able to be built \n" >> ${{ github.workspace }}/log.txt
       - name: upload test results
         if: always()  # always perform this step even if tests fail, to see results
         uses: actions/upload-artifact@v3
         with:
-          name: Tests Result # Do we need to name it? Do we need to put it in logs?
+          name: Tests Result
           path: tests/assn3_test_results.txt
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: assignment3
           path: /tmp/image.tar
-      - name: Upload artifact
+      - name: Upload Log File
         uses: actions/upload-artifact@v3
         with:
           name: Log File
-          path: log.txt
+          path: ${{ github.workspace }}/log.txt
+
 
   test:
     needs: build
@@ -94,3 +95,12 @@ jobs:
         ${{ secrets.DOCKER_COURSE_USERNAME }}/assignment3:${{ env.DATE }}
         docker push \
         ${{ secrets.DOCKER_COURSE_USERNAME }}/assignment3:${{ env.DATE }}
+
+
+# Things to do:
+# 1. Line 10: Not being printed to file.
+# 2. Check if Line32: Do we need to put it in the "Logs" job name? Or keep it 2 different names of jobs?
+# 3. Add name of submitters to logs.
+# 4. Add time start to logs.
+# 5. Add Container up and running to logs
+# 6. Add tests successful to logs.
