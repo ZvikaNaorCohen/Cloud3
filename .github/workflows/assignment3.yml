@@ -41,6 +41,9 @@ jobs:
         with:
           name: Log File
           path: ${{ github.workspace }}/log.txt
+      - name: Cat log file
+        run: cat log.txt
+        
 
 
   test:
