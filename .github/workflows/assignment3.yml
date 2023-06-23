@@ -119,6 +119,8 @@ jobs:
         ${{ secrets.DOCKER_COURSE_USERNAME }}/assignment3:${{ env.DATE }}
         docker push \
         ${{ secrets.DOCKER_COURSE_USERNAME }}/assignment3:${{ env.DATE }}
+    - name: Cat log file
+      run: cat log.txt
 
 
 # Things to do:
