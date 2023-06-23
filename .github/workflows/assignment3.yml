@@ -14,7 +14,7 @@ jobs:
         if: always()
         run: |
           echo "Starting execute: " $(date) >> ${{ github.workspace }}/log.txt
-          echo "Submitters: Zvi Naor Cohen, Matan Cohen >> ${{ github.workspace }}/log.txt
+          echo "Submitters: Zvi Naor Cohen, Matan Cohen" >> ${{ github.workspace }}/log.txt
       - name: Build and export
         uses: docker/build-push-action@v3
         with:
@@ -107,7 +107,5 @@ jobs:
 
 # Things to do:
 # 2. Check if Line32: Do we need to put it in the "Logs" job name? Or keep it 2 different names of jobs?
-# 3. Add name of submitters to logs.
-# 4. Add time start to logs.
 # 5. Add Container up and running to logs
 # 6. Add tests successful to logs.
