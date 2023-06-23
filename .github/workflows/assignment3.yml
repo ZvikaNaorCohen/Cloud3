@@ -44,7 +44,7 @@ jobs:
       - name: Upload Log File
         uses: actions/upload-artifact@v3
         with:
-          name: Log File
+          name: LogFile
           path: ${{ github.workspace }}/log.txt
       - name: Cat log file
         run: cat log.txt
@@ -70,7 +70,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Load log.txt from previous workflows
-      run: docker load --input log.txt
+      run: docker load --input ${{ github.workspace }}/log.txt
     - name: Success Run Container
       if: success()
       run: |
