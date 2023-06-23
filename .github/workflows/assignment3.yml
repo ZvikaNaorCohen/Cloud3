@@ -13,7 +13,7 @@ jobs:
       - name: Log Start Execute
         if: always()
         run: |
-          echo "Starting execute: " $(date + "%m %d %Y %H:%M:%S") >> ${{ github.workspace }}/log.txt
+          echo "Starting execute: " $(date) >> ${{ github.workspace }}/log.txt
       - name: Build and export
         uses: docker/build-push-action@v3
         with:
