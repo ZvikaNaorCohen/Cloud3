@@ -70,7 +70,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     - name: Load log.txt from previous workflows
-      run: docker load --input ${{ github.workspace }}/log.txt
+      run: docker load --input LogFile/log.txt
     - name: Success Run Container
       if: success()
       run: |
