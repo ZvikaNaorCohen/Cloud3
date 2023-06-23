@@ -66,6 +66,14 @@ jobs:
       run: docker run -p8000:8000 assignment3 &
     - name: Check container is running
       run: docker ps
+    - name: Success Run Container
+      if: success()
+      run: |
+        echo "Container up and running" >> ${{ github.workspace }}/log.txt
+    - name: Failed Build
+      if: failure()
+      run: |
+        echo "Container failed to run" >> ${{ github.workspace }}/log.txt
 #     2. set up python and pytest environment
     - name: Checkout
       uses: actions/checkout@v3
@@ -88,6 +96,14 @@ jobs:
       with:
         name: GH_test_results
         path: tests/assn3_test_results.txt
+    - name: Success tests
+      if: success()
+      run: |
+        echo "Tests succeeded" >> ${{ github.workspace }}/log.txt
+    - name: Failed tests
+      if: failure()
+      run: |
+          echo "Tests failed" >> ${{ github.workspace }}/log.txt
 #     The following steps will only execute if tests succeeded
     - name: Set DATE
       run: echo "DATE=$(date -I)" >> $GITHUB_ENV
@@ -107,5 +123,3 @@ jobs:
 
 # Things to do:
 # 2. Check if Line32: Do we need to put it in the "Logs" job name? Or keep it 2 different names of jobs?
-# 5. Add Container up and running to logs
-# 6. Add tests successful to logs.
