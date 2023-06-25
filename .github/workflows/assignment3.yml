@@ -123,6 +123,11 @@ jobs:
         ${{ secrets.DOCKER_COURSE_USERNAME }}/assignment3:${{ env.DATE }}
         docker push \
         ${{ secrets.DOCKER_COURSE_USERNAME }}/assignment3:${{ env.DATE }}
+    - name: Upload Log File
+      uses: actions/upload-artifact@v3
+      with:
+        name: NewestLogfile
+        path: ${{ github.workspace }}/log.txt
     - name: Cat log file
       run: cat log.txt
 
