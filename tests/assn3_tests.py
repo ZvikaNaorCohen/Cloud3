@@ -18,20 +18,17 @@ def test_insert_three_dishes():
 
     assert response1.json() != response2.json() != response3.json()
 
-'''
-Execute a GET dishes/<orange-ID> request, using the ID of the orange dish.
-The test is successful if:
- (i) the sodium field of the return JSON object is between .9 and 1.1 and
- (ii) the return status code from the request is 200.
-'''
 
+def test_get_orange_dish():
+    response = connectionController.http_get("/dishes/1")
+    assert response.status_code == 200
+    sodium_field = response.json()['sodium']
+    assert sodium_field >= 0.9 and sodium_field <= 1.1
 
-'''
-Execute a GET /dishes request.
-The test is successful if:
- (i) the returned JSON object has 3 embedded JSON objects (dishes)
- (ii) the return status code from the GET request is 200.
-'''
+def test_get_all_dishes():
+    response = connectionController.http_get("dishes")
+    assert response.status_code == 200
+    assert len(response.json()) == 3
 
 
 def test_insert_dish_doesnt_exist():
@@ -40,14 +37,6 @@ def test_insert_dish_doesnt_exist():
 
     assert response1.json() == -3
     assert response1.status_code == 404 or response1.status_code == 400 or response1.status_code == 422
-
-
-'''
-Perform a POST dishes request with the dish name “orange”. 
-The test is successful if:
- (i) the return value is -2 (same dish name as existing dish)
- (ii) the return status code is 400 or 404 or 422.
-'''
 
 
 def test_insert_dish_already_exists():
