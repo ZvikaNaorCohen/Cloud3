@@ -47,6 +47,12 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Download log.txt artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: LogFile
 #    1. download image and run it in a container
     - name: Download artifact
       uses: actions/download-artifact@v3  # downloads all artifacts
@@ -56,15 +62,6 @@ jobs:
       run: docker image ls
     - name: run image in container
       run: docker run blablablabla blablabla -p8000:8000 assignment3 &
-    - name: Check container is running
-      run: docker ps
-#     2. set up python and pytest environment
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Download log.txt artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: LogFile
     - name: Success Run Container
       if: success()
       run: |
@@ -73,6 +70,10 @@ jobs:
       if: failure()
       run: |
         echo "Container failed to run" >> ${{ github.workspace }}/log.txt
+    - name: Check container is running
+      run: docker ps
+#     2. set up python and pytest environment
+    
     - name: Set up Python
       uses: actions/setup-python@v4
     - name: Install dependencies
