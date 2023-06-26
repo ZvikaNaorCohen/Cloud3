@@ -47,22 +47,19 @@ def test_insert_dish_already_exists():
     assert response1.status_code == 404 or response1.status_code == 400 or response1.status_code == 422
 
 
-'''
-Perform a POST /meals request specifying that the meal name is “delicious”, and that it contains:
-an “orange” for the appetizer, “spaghetti” for the main, and “apple pie” for the dessert (note you will need to use their dish IDs).
-The test is successful if:
-(i) the returned ID > 0 
-(ii) the return status code is 201.
-'''
+def test_post_meal():
+    response1 = connectionController.http_post("meals", data={'name': "delicious", 'appetizer': 1, 'main': 2, 'dessert': 3})
+
+    assert response1.status_code == 201
+    assert response1.json() > 0
 
 
-'''
-Perform a GET /meals request. 
-The test is successful if:
-(i) the returned JSON object has 1 meal
-(ii) the calories of that meal is between 400 and 500
-(iii) the return status code from the GET request is 200.
-'''
+def test_get_meals():
+    response = connectionController.http_get("meals")
+
+    assert response.status_code == 200
+    assert len(response.json()) == 1
+    assert response.json()["1"]['cal'] >= 400 and response.json()["1"]['cal'] <= 500
 
 
 '''
@@ -71,3 +68,9 @@ The test is successful if:
 (i) the code is -2 (same meal name as existing meal) 
 (ii) the return status code from the request is 400 or 422.
 '''
+
+def test_post_meal_already_exists():
+    response1 = connectionController.http_post("meals", data={'name': "delicious", 'appetizer': 1, 'main': 2, 'dessert': 3})
+
+    assert response1.status_code == 400 or response1.status_code == 422
+    assert response1.json() == -2
