@@ -162,4 +162,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
             name: response
-            path: ${{ github.workspace }}/response.txt
+            path: ${{ github.workspace }}/tests/response.txt
