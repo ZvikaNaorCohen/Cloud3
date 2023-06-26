@@ -2,6 +2,7 @@ FROM python:alpine3.17
 # This Dockerfile.setport is for use with main.py
 WORKDIR /Cloud3
 COPY main.py .
+dsagdsagdsagsd
 RUN pip install flask
 RUN pip install flask_restful
 RUN pip install requests
