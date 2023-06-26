@@ -55,7 +55,7 @@ jobs:
     - name: check assignment3 image is loaded
       run: docker image ls
     - name: run image in container
-      run: docker run -p8000:8000 assignment3 &
+      run: docker run blablablabla blablabla -p8000:8000 assignment3 &
     - name: Check container is running
       run: docker ps
 #     2. set up python and pytest environment
