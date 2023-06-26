@@ -1,8 +1,5 @@
-import pytest
-import sys
 import connectionController
 from assertions import *
-
 
 def test_insert_three_dishes():
     word1 = "orange"
@@ -62,15 +59,11 @@ def test_get_meals():
     assert response.json()["1"]['cal'] >= 400 and response.json()["1"]['cal'] <= 500
 
 
-'''
-Perform a POST /meals request as in test 6 with the same meal name (and courses can be the same or different). 
-The test is successful if:
-(i) the code is -2 (same meal name as existing meal) 
-(ii) the return status code from the request is 400 or 422.
-'''
-
 def test_post_meal_already_exists():
     response1 = connectionController.http_post("meals", data={'name': "delicious", 'appetizer': 1, 'main': 2, 'dessert': 3})
 
     assert response1.status_code == 400 or response1.status_code == 422
     assert response1.json() == -2
+
+def test_bad():
+    assert 2==1
