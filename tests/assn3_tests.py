@@ -64,6 +64,3 @@ def test_post_meal_already_exists():
 
     assert response1.status_code == 400 or response1.status_code == 422
     assert response1.json() == -2
-
-def test_bad():
-    assert 2==1
