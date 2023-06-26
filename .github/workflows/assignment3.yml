@@ -30,12 +30,6 @@ jobs:
         if: failure()
         run: |
           echo "image not able to be built" >> ${{ github.workspace }}/log.txt
-      - name: upload test results
-        if: always()  # always perform this step even if tests fail, to see results
-        uses: actions/upload-artifact@v3
-        with:
-          name: Tests Result
-          path: tests/assn3_test_results.txt
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
