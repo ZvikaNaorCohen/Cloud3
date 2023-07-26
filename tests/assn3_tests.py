@@ -1,66 +1,49 @@
-import connectionController
-from assertions import *
+import requests
+import json
 
-def test_insert_three_dishes():
-    word1 = "orange"
-    word2 = "spaghetti"
-    word3 = "apple pie"
-    response1 = connectionController.http_post("dishes", data={'name': word1})
-    response2 = connectionController.http_post("dishes", data={'name': word2})
-    response3 = connectionController.http_post("dishes", data={'name': word3})
+orange = 'orange'
+spaghetti = 'spaghetti'
+apple_pie = 'apple pie'
 
-    assert response1.status_code == 201
-    assert response2.status_code == 201
-    assert response3.status_code == 201
+delicious = 'delicious'
 
-    assert response1.json() != response2.json() != response3.json()
+meals_resource = '/meals'
+dishes_resource = '/dishes'
 
+dishes_col = {}
+meal_col = {}
 
-def test_get_orange_dish():
-    response = connectionController.http_get("/dishes/1")
-    assert response.status_code == 200
-    sodium_field = response.json()['sodium']
-    assert sodium_field >= 0.9 and sodium_field <= 1.1
-
-def test_get_all_dishes():
-    response = connectionController.http_get("dishes")
-    assert response.status_code == 200
-    assert len(response.json()) == 3
+base_url = 'http://localhost:8000'
 
 
-def test_insert_dish_doesnt_exist():
-    word1 = "blah"
-    response1 = connectionController.http_post("dishes", data={'name': word1})
-
-    assert response1.json() == -3
-    assert response1.status_code == 404 or response1.status_code == 400 or response1.status_code == 422
-
-
-def test_insert_dish_already_exists():
-    word1 = "orange"
-    response1 = connectionController.http_post("dishes", data={'name': word1})
-
-    assert response1.json() == -2
-    assert response1.status_code == 404 or response1.status_code == 400 or response1.status_code == 422
+def test_dish_creation():
+    dishes_list = {orange, spaghetti, apple_pie}
+    for dish_name in dishes_list:
+        response = requests.post(base_url + dishes_resource, json={"name": dish_name})
+        dish_id = int(response.text)
+        assert response.status_code == 800
+        assert dish_id not in dishes_col
+        dishes_col[dish_name] = dish_id
 
 
-def test_post_meal():
-    response1 = connectionController.http_post("meals", data={'name': "delicious", 'appetizer': 1, 'main': 2, 'dessert': 3})
+def test_get_dishes_by_id():
+    orange_id = dishes_col[orange]
+    response = requests.get(f'{base_url}{dishes_resource}/{orange_id}')
+    sodium = response.json()['sodium']
+    assert response.status_code == 800
+    assert 0.9 <= sodium <= 1.1
 
-    assert response1.status_code == 201
-    assert response1.json() > 0
+    request_json = {'name': delicious, 'appetizer': dishes_col[orange],
+                    'main': dishes_col[spaghetti], 'dessert': dishes_col[apple_pie]}
+    response = requests.post(base_url + meals_resource, json=request_json)
+    response_status = response.status_code
+    assert response_status == 400 or response_status == 422
+    assert response.json() == -2
 
 
-def test_get_meals():
-    response = connectionController.http_get("meals")
-
-    assert response.status_code == 200
-    assert len(response.json()) == 1
-    assert response.json()["1"]['cal'] >= 400 and response.json()["1"]['cal'] <= 500
-
-
-def test_post_meal_already_exists():
-    response1 = connectionController.http_post("meals", data={'name': "delicious", 'appetizer': 1, 'main': 2, 'dessert': 3})
-
-    assert response1.status_code == 400 or response1.status_code == 422
-    assert response1.json() == -2
+def is_json(myjson):
+    try:
+        json.loads(myjson)
+    except ValueError as e:
+        return False
+    return True
